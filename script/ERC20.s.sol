@@ -9,7 +9,7 @@ contract ERC20Script is Script {
 
     function run() public {
         vm.startBroadcast();
-        ERC20 erc20 = new ERC20();
+        new ERC20("YOUR_TOKEN_NAME", "YOUR_TOKEN_SYMBOL");
         vm.stopBroadcast();
     }
 }

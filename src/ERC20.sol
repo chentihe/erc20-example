@@ -95,14 +95,16 @@ contract ERC20 is IERC20 {
 
     uint256 private constant _totalSupply = 1_000_000_000 * 1e6 wei;
 
-    string private constant _name = "TEST ERC20";
-    string private constant _symbol = "ERC20";
+    string private _name;
+    string private _symbol;
 
     uint256 private constant _decimals = 6;
 
     address private _owner;
 
-    constructor() {
+    constructor(string memory name_, string memory symbol_) {
+        _name = name_;
+        _symbol = symbol_;
         _owner = msg.sender;
         _balances[msg.sender] = _totalSupply / 2;
         _balances[address(this)] = _totalSupply / 2;
@@ -118,11 +120,11 @@ contract ERC20 is IERC20 {
         return _decimals;
     }
 
-    function symbol() external pure returns (string memory) {
+    function symbol() external view returns (string memory) {
         return _symbol;
     }
 
-    function name() external pure returns (string memory) {
+    function name() external view returns (string memory) {
         return _name;
     }
 
@@ -194,7 +196,7 @@ contract ERC20 is IERC20 {
     }
 
     function withdraw(uint256 amount) external {
-        assert(msg.sender == _owner);
+        require(msg.sender == _owner);
         _transfer(address(this), _owner, amount);
     }
 
