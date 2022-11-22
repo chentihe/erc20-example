@@ -16,7 +16,7 @@ contract ERC20Test is Test {
 
     function setUp() public {
         vm.startPrank(owner);
-        erc20 = new ERC20();
+        erc20 = new ERC20("Test Token", "TT", 6);
         erc20.transfer(alice, transferAmount);
         erc20.transfer(bob, transferAmount);
     }

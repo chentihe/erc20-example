@@ -98,14 +98,15 @@ contract ERC20 is IERC20 {
     string private _name;
     string private _symbol;
 
-    uint256 private constant _decimals = 6;
+    uint256 private immutable _decimals;
 
     address private _owner;
 
-    constructor(string memory name_, string memory symbol_) {
+    constructor(string memory name_, string memory symbol_, uint256 decimals_) {
         _name = name_;
         _symbol = symbol_;
         _owner = msg.sender;
+        _decimals = decimals_;
         _balances[msg.sender] = _totalSupply / 2;
         _balances[address(this)] = _totalSupply / 2;
         emit Transfer(address(0), msg.sender, _totalSupply / 2);
@@ -116,7 +117,7 @@ contract ERC20 is IERC20 {
         return _owner;
     }
 
-    function decimals() external pure returns (uint256) {
+    function decimals() external view returns (uint256) {
         return _decimals;
     }
 
@@ -212,7 +213,7 @@ contract ERC20 is IERC20 {
         emit Approval(owner, spender, amount);
     }
 
-    function sendToMutiUser(address[] memory input, uint256 amount) external {
+    function sendToMutiUsers(address[] memory input, uint256 amount) external {
         if (_balances[msg.sender] < input.length * amount) {
             revert InsufficientBalance(_balances[msg.sender], input.length * amount);
         }
